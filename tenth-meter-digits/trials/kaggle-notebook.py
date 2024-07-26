@@ -52,13 +52,13 @@ for i, aktfile in enumerate(imgfiles):
 
     # get label from filename (1.2_ new or 1_ old),
     if (base[1]=="."):
-        target = base[0:3]
+        target = base[0:3] # 1.2
     else:
-        target = base[0:1]
+        target = base[0:1] # 1
 
-    category = float(target)
+    category = float(target) # this means that the category is the first digit of the filename
 
-    test_image = Image.open(aktfile).resize((20, 32))
+    test_image = Image.open(aktfile).resize((20, 32)) # Resize the image to 20x32
     test_image = np.array(test_image, dtype="float32")
     y_file[i] =  base
     x_data[i] =  test_image
@@ -88,12 +88,12 @@ for i in range(1, columns*rows +1):
     plt.imshow((x_data[i-1]).astype(np.uint8), aspect='1.6', extent=[0, 1, 0, 1])
     
     # Add yellow lines to separate the digits
-    for y in np.arange(0.2, 0.8, 0.2):
-        plt.axhline(y=y,color='yellow')
+    for y in np.arange(0.2, 0.8, 0.2): 
+        plt.axhline(y=y,color='yellow') # Add yellow lines to separate the digits
     
-    ax=plt.gca()
-    ax.get_xaxis().set_visible(False) 
-    plt.tight_layout()
+    ax=plt.gca() # Get the current axes
+    ax.get_xaxis().set_visible(False) # Hide the x-axis
+    plt.tight_layout() # Adjust the subplots to fit into the figure area
 
 plt.show()
 
@@ -121,3 +121,46 @@ print("Distribution successful")
 
 
 # CELL 5
+# Create a model to train the data
+from tensorflow import keras
+from keras import Sequential
+from keras.layers import *
+from tensorflow.keras.layers import BatchNormalization, Conv2D, MaxPool2D, Dropout, Flatten, Dense
+import tensorflow as tf
+
+model = Sequential() # Create a sequential model
+model.add(BatchNormalization(input_shape=(32,20,3)))
+model.add(Conv2D(32, (3, 3), padding='same', activation="relu"))
+model.add(BatchNormalization())
+model.add(MaxPool2D(pool_size=(2,2)))
+model.add(Dropout(0.1))
+model.add(Conv2D(32, (3, 3), padding='same', activation="relu"))
+model.add(BatchNormalization())
+model.add(MaxPool2D(pool_size=(2,2)))
+model.add(Dropout(0.1))
+model.add(Conv2D(32, (3, 3), padding='same', activation="relu"))
+model.add(BatchNormalization())
+model.add(MaxPool2D(pool_size=(2,2)))
+model.add(Dropout(0.1))
+model.add(Flatten())
+model.add(Dropout(0.4))
+model.add(Dense(128,activation="relu"))
+model.add(Dropout(0.4))
+model.add(Dense(100, activation = None))
+
+model.compile(loss=tf.keras.losses.CategoricalCrossentropy(from_logits=True), 
+              optimizer="adam", metrics = ["accuracy"])
+
+y = tf.keras.utils.to_categorical(y_data, num_classes=100, dtype='float32')
+
+
+
+# CELL 6
+# Train the model
+
+
+history = model.fit(x_data, y,
+                validation_split=0.2, 
+                batch_size=32, 
+                epochs = 40,
+                verbose=1)
