@@ -17,4 +17,4 @@ for line in result:
     table_data.append([line[1][0], f"{line[1][1]:.4f}", str(line[0])])
 
 headers = ["Text", "Confidence", "Position"]
-print(tabulate(table_data, headers=headers, tablefmt="grid"))
+print(tabulate(table_data, headers=headers, tablefmt= "grid"))
