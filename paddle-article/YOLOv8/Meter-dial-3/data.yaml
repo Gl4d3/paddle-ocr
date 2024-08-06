@@ -1,0 +1,12 @@
+names:
+- '0'
+nc: 1
+roboflow:
+  license: CC BY 4.0
+  project: meter-dial
+  url: https://universe.roboflow.com/generateddisplay2/meter-dial/dataset/3
+  version: 3
+  workspace: generateddisplay2
+test: ../test/images
+train: Meter-dial-3/train/images
+val: Meter-dial-3/valid/images
