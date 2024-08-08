@@ -1,0 +1,12 @@
+names:
+- reading
+nc: 1
+roboflow:
+  license: CC BY 4.0
+  project: emr-dpn12
+  url: https://universe.roboflow.com/yoloem/emr-dpn12/dataset/3
+  version: 3
+  workspace: yoloem
+test: ../test/images
+train: EMR-3/train/images
+val: EMR-3/valid/images
