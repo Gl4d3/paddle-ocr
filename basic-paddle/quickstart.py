@@ -6,7 +6,7 @@ ocr = PaddleOCR(use_angle_cls=True, lang='ch') #use_angle_cls=True for text dete
 print("PaddleOCR initialized successfully!")
 
 # Path to the image
-img_path = 'table-ocr-1.jpg'
+img_path = './images/254.jpg'
 
 # Run the model on an image
 result = ocr.ocr(img_path, cls=True)
